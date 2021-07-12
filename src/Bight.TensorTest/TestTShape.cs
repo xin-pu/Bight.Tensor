@@ -48,7 +48,7 @@ namespace Bight.TensorTest
 
         [Theory]
         [InlineData(2, 3)]
-        public void Op(params int[] shape)
+        public void Operators(params int[] shape)
         {
             var newShape = new TShape(shape);
             (newShape == TShape).Should().BeFalse();

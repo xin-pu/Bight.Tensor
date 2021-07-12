@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using YAXLib;
@@ -65,6 +66,14 @@ namespace Bight.Tensor
             return new TShape(newShape);
         }
 
+        /// <summary>
+        ///     Reverse TShape
+        /// </summary>
+        /// <returns></returns>
+        public TShape Reverse()
+        {
+            return new TShape(shape.Reverse().ToArray());
+        }
 
         /// <summary>
         ///     Returns the shape's internal array's copy
@@ -109,6 +118,7 @@ namespace Bight.Tensor
         {
             return !s1.Equals(s2);
         }
+
 
         public override int GetHashCode()
         {
