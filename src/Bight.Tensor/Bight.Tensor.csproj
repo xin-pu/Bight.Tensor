@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;net4.8</TargetFrameworks>
+    <LangVersion>8</LangVersion>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+
+/.vs/Bight.Tensor/v16
+/src/Bight.Tensor/bin
+/src/Bight.Tensor/obj
+/src/Bight.TensorTest/obj
+/src/Bight.TensorTest/bin
