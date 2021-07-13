@@ -3,7 +3,7 @@
 ################################################################################
 
 
-/.vs/Bight.Tensor/v16
+/.vs
 /src/Bight.Tensor/bin
 /src/Bight.Tensor/obj
 /src/Bight.TensorTest/obj

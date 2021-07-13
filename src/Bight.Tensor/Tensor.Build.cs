@@ -98,7 +98,6 @@ namespace Bight.Tensor
 
         #endregion
 
-
         #region Build Tensor
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -173,12 +172,11 @@ namespace Bight.Tensor
 
         #endregion
 
-
         #region Build IdentityTensor
 
         public static Tensor<T> BuildIdentityTensor(int[] dimensions, int matrixDiag)
         {
-            //var newDims = new int[dimensions.Length + 2];
+            var newDims = new int[dimensions.Length + 2];
             //for (var i = 0; i < dimensions.Length; i++)
             //    newDims[i] = dimensions[i];
             //newDims[newDims.Length - 2] = newDims[newDims.Length - 1] = matrixDiag;

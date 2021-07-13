@@ -45,19 +45,50 @@ namespace Bight.TensorTest
             _testOutputHelper.WriteLine(matrix1.ToString());
         }
 
+
         [Fact]
-        public void CreateOnes()
+        public void BuildTensor()
         {
-            var a = Tensor<double>.BuildOnes(20, 20);
+            var tensorVector = Tensor<double>.BuildTensor(new double[3]);
+            var tensorMatrix = Tensor<double>.BuildTensor(new double[3, 4]);
+            var tensorTensor = Tensor<double>.BuildTensor(new double[3, 4, 5]);
+            _testOutputHelper.WriteLine(tensorVector.ToString());
+            _testOutputHelper.WriteLine(tensorMatrix.ToString());
+            _testOutputHelper.WriteLine(tensorTensor.ToString());
+
+            var tensor1D = Tensor<double>.BuildTensor(new double[3]);
+            var tensor2D = Tensor<double>.BuildTensor(new double[,] {{1, 2, 3}, {2, 3, 4}});
+            var tensor3D = Tensor<double>.BuildTensor(new double[,,]
+            {
+                {{1, 2, 3}, {2, 3, 4}},
+                {{1, 2, 3}, {2, 3, 4}}
+            });
+            _testOutputHelper.WriteLine(tensor1D.ToString());
+            _testOutputHelper.WriteLine(tensor2D.ToString());
+            _testOutputHelper.WriteLine(tensor3D.ToString());
+        }
+
+
+        [Fact]
+        public void BuildOnes()
+        {
+            var a = Tensor<double>.BuildOnes(5, 5);
             _testOutputHelper.WriteLine(a.ToString());
         }
 
 
         [Fact]
-        public void TestBuild()
+        public void BuildZeros()
         {
-            var ones = Tensor<double>.BuildOnes(2, 3, 4);
             var zeros = Tensor<double>.BuildZeros(2, 3, 4);
+            _testOutputHelper.WriteLine(zeros.ToString());
+        }
+
+        [Fact]
+        public void BuildIdentityMatrix()
+        {
+            var identityMatrix = Tensor<double>.BuildIdentityMatrix(3);
+            _testOutputHelper.WriteLine(identityMatrix.ToString());
         }
     }
 }

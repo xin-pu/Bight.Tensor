@@ -6,9 +6,9 @@ namespace Bight.Tensor
     {
         public override string ToString()
         {
-            if (IsVector) return TensorTitle() + VectorToString(this);
-            if (IsMatrix) return TensorTitle() + MatrixToString(this);
-            if (IsTensor) return TensorTitle() + TensorToString(this);
+            if (IsVector) return TensorTitle() + VectorToString(this) + "\r";
+            if (IsMatrix) return TensorTitle() + MatrixToString(this) + "\r";
+            if (IsTensor) return TensorTitle() + TensorToString(this) + "\r";
             return string.Empty;
         }
 
@@ -54,7 +54,7 @@ namespace Bight.Tensor
                 : IsMatrix
                     ? "- Matrix"
                     : "- Tensor";
-            return $"{title}\t{Shape}\r";
+            return $"{title}\t{TType}\t{Shape}\r";
         }
     }
 }

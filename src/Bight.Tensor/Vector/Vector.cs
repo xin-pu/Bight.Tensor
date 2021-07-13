@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace Bight.Tensor
+﻿namespace Bight.Tensor.Vector
 {
-    public class Vector<T> : ICloneable
+    public class Vector<T> : Tensor<T>
         where T : struct
     {
-        public object Clone()
+        public Vector(int dims)
+            : base(dims)
         {
-            throw new NotImplementedException();
         }
     }
 }
