@@ -1,4 +1,5 @@
 ﻿using Bight.Tensor;
+using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -7,60 +8,53 @@ namespace Bight.TensorTest
     public class TestTensor
     {
         private readonly ITestOutputHelper _testOutputHelper;
-        private Tensor<double> tensor;
+        private readonly Tensor<double> matrix;
+        private readonly Tensor<double> vector;
+        private readonly Tensor<double> tensor;
 
         public TestTensor(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
+            vector = new Tensor<double>(new TensorShape(3));
+            matrix = new Tensor<double>(new TensorShape(3, 3));
             tensor = new Tensor<double>(new TensorShape(2, 3, 4));
         }
 
-
         [Fact]
-        public void CreateScale()
+        public void CheckIsVector()
         {
-            var vector = new Tensor<double>(3);
-            _testOutputHelper.WriteLine(vector.ToString());
+            vector.IsVector.Should().BeTrue();
+            matrix.IsVector.Should().BeFalse();
+            tensor.IsVector.Should().BeFalse();
         }
 
         [Fact]
-        public void CreateMatrix()
+        public void CheckIsMatrix()
         {
-            var matrix = new Tensor<double>(3, 4);
-            _testOutputHelper.WriteLine(matrix.ToString());
+            vector.IsMatrix.Should().BeFalse();
+            matrix.IsMatrix.Should().BeTrue();
+            tensor.IsMatrix.Should().BeFalse();
         }
 
         [Fact]
-        public void GetSubTensor()
+        public void CheckIsTensor()
         {
-            var matrix = new Tensor<double>(3, 4) {[0, 1] = 12};
-            var vector = matrix.GetSubTensor(0);
-            _testOutputHelper.WriteLine(vector.ToString());
+            vector.IsTensor.Should().BeFalse();
+            matrix.IsTensor.Should().BeFalse();
+            tensor.IsTensor.Should().BeTrue();
         }
 
-
         [Fact]
-        public void TestBuild()
+        public void CheckIsSquareMatrix()
         {
-            tensor = Tensor<double>.BuildOnes(2, 3, 4);
-            tensor = Tensor<double>.BuildZeros(2, 3, 4);
-        }
-
-
-        [Fact]
-        public void TestThis()
-        {
-            tensor = Tensor<double>.BuildZeros(2, 3, 4);
-            tensor[0, 0, 0] = 3F;
-            tensor[0, 1, 0] = 4F;
-            tensor[1, 0, 0] = 5F;
-            _testOutputHelper.WriteLine(tensor.ToString());
-            _testOutputHelper.WriteLine(tensor[0, 1, 0].ToString());
+            vector.IsSquareMatrix.Should().BeFalse();
+            matrix.IsSquareMatrix.Should().BeTrue();
+            tensor.IsSquareMatrix.Should().BeFalse();
         }
 
 
         [Fact]
-        public void TestSub()
+        public void TestGetSubTensor()
         {
             var t = Tensor<double>.BuildZeros(2, 3, 4);
             t[0, 0, 0] = 3F;

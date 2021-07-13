@@ -6,9 +6,12 @@ namespace Bight.Tensor
 {
     public partial class Tensor<T>
     {
-        private bool IsTensor => Rank >= 3;
-        private bool IsMatrxi => Rank == 2;
-        private bool IsVector => Rank == 1;
+        public bool IsTensor => Rank >= 3;
+        public bool IsMatrix => Rank == 2;
+        public bool IsVector => Rank == 1;
+        public bool IsSquareMatrix => IsMatrix && Shape.Reverse()[0] == Shape.Reverse()[1];
+
+
         private int LinOffset { set; get; } = 0;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
