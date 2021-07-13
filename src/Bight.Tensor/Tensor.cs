@@ -1,31 +1,36 @@
 ﻿using System;
 using System.Linq;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 using YAXLib;
 
 namespace Bight.Tensor
 {
-    public class Tensor<T> : ICloneable
+    public partial class Tensor<T> : ICloneable
         where T : struct
     {
-        private readonly int[] blocks;
-
-        public Tensor(TShape shape)
+        public Tensor(params int[] shape)
+            : this(new TensorShape(shape))
         {
-            Shape = shape;
-            var len = 1;
-            for (var i = 0; i < shape.Length; i++) len *= shape[i];
-            var data = new T[len];
-            Data = data;
-            blocks = new int[shape.Length];
-            BlockRecompute();
         }
 
+        public Tensor(TensorShape shape)
+        {
+            Shape = shape;
+            DataResume();
+        }
 
-        public T[] Data { protected set; get; }
+        public string TType => typeof(T).Name;
 
-        public TShape Shape { protected set; get; }
+        public string Name { protected set; get; }
 
-        public TShape BlockShape { protected set; get; }
+        public T[] Data { set; get; }
+
+        public TensorShape Shape { set; get; }
+
+        internal TensorShape BlockShape => GetBlockShape();
+
+        public int Volume => Shape.Volume;
 
         public object Clone()
         {
@@ -35,18 +40,29 @@ namespace Bight.Tensor
         }
 
 
-        private void BlockRecompute()
+        private void DataResume()
         {
-            var len = 1;
-            foreach (var i in Enumerable.Range(0, Shape.Length))
-            {
-                blocks[i] = len;
-                len *= Shape[i];
-            }
+            var data = new T[Shape.Volume];
+            Data = data;
         }
 
-        private void BlockShapeResume()
+
+        private TensorShape GetBlockShape()
         {
+            var shapeRve = Shape.Reverse().shape;
+            var blockShape = Enumerable.Range(1, Shape.Rank)
+                .Select(r =>
+                    shapeRve.Take(r).Aggregate((a, b) => a * b))
+                .ToArray();
+            return new TensorShape(blockShape);
+        }
+
+        public override string ToString()
+        {
+            var serializer = new SerializerBuilder()
+                .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                .Build();
+            return serializer.Serialize(this);
         }
     }
 }

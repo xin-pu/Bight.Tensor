@@ -6,10 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Tensor.Operators.cs" />
+    <Compile Remove="Tensor.Declaration.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Tensor.Declaration.cs" />
     <None Include="Tensor.Operators.cs" />
   </ItemGroup>
 

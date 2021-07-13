@@ -4,20 +4,20 @@ using Xunit.Abstractions;
 
 namespace Bight.TensorTest
 {
-    public class TestTensor
+    public class TestBuild
     {
         private readonly ITestOutputHelper _testOutputHelper;
 
-        public TestTensor(ITestOutputHelper testOutputHelper)
+        public TestBuild(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
         }
 
         [Fact]
-        public void TestCreate()
+        public void CreateOnes()
         {
-            var t = new Tensor<double>(new TensorShape(2, 3, 4));
-            _testOutputHelper.WriteLine(t.ToString());
+            var a = Tensor<double>.BuildOnes(20, 20);
+            _testOutputHelper.WriteLine(a.ToString());
         }
     }
 }

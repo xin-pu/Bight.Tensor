@@ -8,7 +8,7 @@ namespace Bight.TensorTest
     public class TestTShape
     {
         private readonly ITestOutputHelper _testOutputHelper;
-        public TShape TShape = new TShape(1, 2, 3);
+        public TensorShape TShape = new TensorShape(1, 2, 3);
 
         public TestTShape(ITestOutputHelper testOutputHelper)
         {
@@ -19,8 +19,8 @@ namespace Bight.TensorTest
         public void TestPrintTShape()
         {
             _testOutputHelper.WriteLine(TShape.ToString());
-            _testOutputHelper.WriteLine(TShape.Length.ToString());
-            _testOutputHelper.WriteLine(TShape.Dimension.ToString());
+            _testOutputHelper.WriteLine(TShape.Volume.ToString());
+            _testOutputHelper.WriteLine(TShape.Rank.ToString());
             _testOutputHelper.WriteLine(TShape[0].ToString());
         }
 
@@ -42,15 +42,15 @@ namespace Bight.TensorTest
             (newShape == TShape).Should().BeTrue();
 
             TShape.Equals(null).Should().BeFalse();
-            TShape.Equals(new TShape(1, 2)).Should().BeFalse();
-            TShape.Equals(new TShape(1, 2, 3)).Should().BeTrue();
+            TShape.Equals(new TensorShape(1, 2)).Should().BeFalse();
+            TShape.Equals(new TensorShape(1, 2, 3)).Should().BeTrue();
         }
 
         [Theory]
         [InlineData(2, 3)]
         public void Operators(params int[] shape)
         {
-            var newShape = new TShape(shape);
+            var newShape = new TensorShape(shape);
             (newShape == TShape).Should().BeFalse();
             (newShape != TShape).Should().BeTrue();
         }
