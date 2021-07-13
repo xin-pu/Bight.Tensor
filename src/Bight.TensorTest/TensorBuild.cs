@@ -4,11 +4,11 @@ using Xunit.Abstractions;
 
 namespace Bight.TensorTest
 {
-    public class TestBuild
+    public class TensorBuild
     {
         private readonly ITestOutputHelper _testOutputHelper;
 
-        public TestBuild(ITestOutputHelper testOutputHelper)
+        public TensorBuild(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
         }

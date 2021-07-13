@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 using YAXLib;
 
 namespace Bight.Tensor
@@ -101,6 +99,13 @@ namespace Bight.Tensor
             return new TensorShape(shape.Reverse().ToArray());
         }
 
+        public TensorShape SubTensorShape()
+        {
+            var newshape = shape.ToList();
+            newshape.RemoveAt(0);
+            return new TensorShape(newshape.ToArray());
+        }
+
         /// <summary>
         ///     Returns the shape's internal array's copy
         /// </summary>
@@ -128,10 +133,7 @@ namespace Bight.Tensor
 
         public override string ToString()
         {
-            var serializer = new SerializerBuilder()
-                .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                .Build();
-            return serializer.Serialize(this);
+            return $"<{string.Join(" × ", shape)}>";
         }
     }
 }

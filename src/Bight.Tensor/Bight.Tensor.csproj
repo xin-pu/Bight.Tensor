@@ -7,11 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="Tensor.Declaration.cs" />
+    <Compile Remove="Tensor.Slice.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Tensor.Declaration.cs" />
     <None Include="Tensor.Operators.cs" />
+    <None Include="Tensor.Slice.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,12 +5,12 @@ using Xunit.Abstractions;
 
 namespace Bight.TensorTest
 {
-    public class TestTShape
+    public class TestTensorShape
     {
         private readonly ITestOutputHelper _testOutputHelper;
         public TensorShape TShape = new TensorShape(1, 2, 3);
 
-        public TestTShape(ITestOutputHelper testOutputHelper)
+        public TestTensorShape(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
         }

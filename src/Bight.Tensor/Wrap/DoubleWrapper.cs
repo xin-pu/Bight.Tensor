@@ -50,7 +50,7 @@ namespace Bight.Tensor.Wrap
 
         public string ToString(double a)
         {
-            return a.ToString();
+            return a.ToString("F4");
         }
     }
 }

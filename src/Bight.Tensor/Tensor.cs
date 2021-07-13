@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Bight.Tensor.Wrap;
 using YAXLib;
 
 namespace Bight.Tensor
@@ -7,7 +8,7 @@ namespace Bight.Tensor
     /// <summary>
     ///     If more than 3 Rank you enter.
     ///     For example [2,3,4] Shape you input
-    ///     You will get 2 Matrii with Matrix size [3,4]
+    ///     You will get 2 Matrix with Matrix size [3,4]
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public partial class Tensor<T> : ICloneable
@@ -25,6 +26,12 @@ namespace Bight.Tensor
             DataResume();
         }
 
+        private Tensor(TensorShape shape, T[] data)
+        {
+            Shape = shape;
+            Data = data;
+        }
+
         public string TType => typeof(T).Name;
 
         public string Name { protected set; get; }
@@ -33,8 +40,9 @@ namespace Bight.Tensor
 
         public TensorShape Shape { set; get; }
 
-        internal int[] BlockShape => GetBlockShape().shape;
+        internal TensorShape BlockShape => GetBlockShape();
 
+        internal Wrapper<T> Wrapper => new Wrapper<T>();
 
         /// <summary>
         ///     Number of elements in tensor overall
@@ -65,10 +73,11 @@ namespace Bight.Tensor
 
         private TensorShape GetBlockShape()
         {
-            var shapeRve = Shape.Reverse().shape;
+            var shapeRve = Shape.shape.Append(1).Reverse();
             var blockShape = Enumerable.Range(1, Shape.Rank)
                 .Select(r =>
                     shapeRve.Take(r).Aggregate((a, b) => a * b))
+                .Reverse()
                 .ToArray();
             return new TensorShape(blockShape);
         }
