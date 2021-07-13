@@ -5,6 +5,21 @@ namespace Bight.Tensor
 {
     public partial class Tensor<T>
     {
+        public static Tensor<T> BuildIdentityTensor(int[] dimensions, int matixDiag)
+        {
+            var dim = dimensions.ToList();
+            dim.AddRange(new[] {matixDiag, matixDiag});
+            var tensor = new Tensor<T>(dim.ToArray());
+            return tensor;
+        }
+
+
+        public static Tensor<T> BuildIdentityMatrix(int diag)
+        {
+            var tensor = BuildZeros(diag, diag);
+            return tensor;
+        }
+
         public static Tensor<T> BuildOnes(params int[] shape)
         {
             return BuildOnes(new TensorShape(shape));

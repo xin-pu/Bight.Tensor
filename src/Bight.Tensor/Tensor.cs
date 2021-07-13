@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Linq;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 using YAXLib;
 
 namespace Bight.Tensor
 {
+    /// <summary>
+    ///     If more than 3 Rank you enter.
+    ///     For example [2,3,4] Shape you input
+    ///     You will get 2 Matrii with Matrix size [3,4]
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public partial class Tensor<T> : ICloneable
         where T : struct
     {
@@ -13,6 +17,7 @@ namespace Bight.Tensor
             : this(new TensorShape(shape))
         {
         }
+
 
         public Tensor(TensorShape shape)
         {
@@ -28,9 +33,20 @@ namespace Bight.Tensor
 
         public TensorShape Shape { set; get; }
 
-        internal TensorShape BlockShape => GetBlockShape();
+        internal int[] BlockShape => GetBlockShape().shape;
 
+
+        /// <summary>
+        ///     Number of elements in tensor overall
+        ///     a tensor [2,3,4] will get volume 2*3*4
+        /// </summary>
         public int Volume => Shape.Volume;
+
+        /// <summary>
+        ///     Rank of tensor
+        ///     a tensor [2,3,4] will get rank 3
+        /// </summary>
+        public int Rank => Shape.Rank;
 
         public object Clone()
         {
@@ -55,14 +71,6 @@ namespace Bight.Tensor
                     shapeRve.Take(r).Aggregate((a, b) => a * b))
                 .ToArray();
             return new TensorShape(blockShape);
-        }
-
-        public override string ToString()
-        {
-            var serializer = new SerializerBuilder()
-                .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                .Build();
-            return serializer.Serialize(this);
         }
     }
 }
