@@ -1,4 +1,6 @@
-﻿namespace Bight.Tensor.Holder
+﻿using System;
+
+namespace Bight.Tensor.Holder
 {
     public class IntWrapper : IOperations<int>
     {
@@ -29,6 +31,11 @@
         public int Divide(int a, int b)
         {
             return a / b;
+        }
+
+        public int Abs(int a)
+        {
+            return Math.Abs(a);
         }
 
         public int Copy(int a)

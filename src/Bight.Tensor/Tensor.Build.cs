@@ -207,6 +207,11 @@ namespace Bight.Tensor
 
         #region Zeros
 
+        public static Tensor<T> BuildZeros(Tensor<T> tensor)
+        {
+            return BuildZeros(tensor.Size);
+        }
+
         public static Tensor<T> BuildZeros(params int[] shape)
         {
             return BuildZeros(new TensorSize(shape));

@@ -12,6 +12,32 @@
         /// </returns>
         T Zero { get; }
 
+
+        /// <returns>
+        ///     If your elements are mutable, it
+        ///     might be useful to be able to copy
+        ///     them as well.
+        /// </returns>
+        T Copy(T a);
+
+        /// <summary>
+        ///     Determines whether the instances
+        ///     of your objects are equal
+        /// </summary>
+        bool AreEqual(T a, T b);
+
+        /// <summary>
+        ///     Whether the given instance is zero
+        /// </summary>
+        bool IsZero(T a);
+
+        /// <summary>
+        ///     Get the string representation of the instance
+        /// </summary>
+        string ToString(T a);
+
+        #region Basic
+
         /// <summary>
         ///     Rules of adding elements. Must return a new one.
         ///     Should not modify the old ones.
@@ -57,27 +83,14 @@
         /// </returns>
         T Divide(T a, T b);
 
-        /// <returns>
-        ///     If your elements are mutable, it
-        ///     might be useful to be able to copy
-        ///     them as well.
-        /// </returns>
-        T Copy(T a);
 
-        /// <summary>
-        ///     Determines whether the instances
-        ///     of your objects are equal
-        /// </summary>
-        bool AreEqual(T a, T b);
+        T Sin(T a);
+        T Cos(T a);
+        T Tan(T a);
 
-        /// <summary>
-        ///     Whether the given instance is zero
-        /// </summary>
-        bool IsZero(T a);
 
-        /// <summary>
-        ///     Get the string representation of the instance
-        /// </summary>
-        string ToString(T a);
+        T Abs(T a);
+
+        #endregion
     }
 }

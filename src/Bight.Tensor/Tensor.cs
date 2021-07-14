@@ -47,7 +47,12 @@ namespace Bight.Tensor
 
         public TensorSize Stride { set; get; }
 
-        internal Holder<T> Holder => new Holder<T>();
+        /// <summary>
+        ///     Todo Add Mask Tensor
+        /// </summary>
+        public Tensor<bool> MaskTensor { set; get; }
+
+        internal static Holder<T> Holder => new Holder<T>();
 
         /// <summary>
         ///     Number of elements in tensor overall
@@ -56,10 +61,11 @@ namespace Bight.Tensor
         public int Volume => Size.Volume;
 
         /// <summary>
-        ///     Rank of tensor
+        ///     Rank or Dimensionality of tensor
         ///     a tensor [2,3,4] will get rank 3
         /// </summary>
         public int Rank => Size.Rank;
+
 
         public object Clone()
         {

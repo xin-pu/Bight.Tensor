@@ -52,5 +52,25 @@ namespace Bight.Tensor.Holder
         {
             return a.ToString("F4");
         }
+
+        public double Abs(double a)
+        {
+            return Math.Abs(a);
+        }
+
+        public double Cos(double a)
+        {
+            return Math.Cos(a);
+        }
+
+        public double Sin(double a)
+        {
+            return Math.Sin(a);
+        }
+
+        public double Tan(double a)
+        {
+            return Math.Tan(a);
+        }
     }
 }

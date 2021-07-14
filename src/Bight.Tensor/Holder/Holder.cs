@@ -2,15 +2,13 @@
 
 namespace Bight.Tensor.Holder
 {
-    public class Holder<T>
+    public class Holder<T> : IOperations<T>
         where T : struct
     {
         public Holder()
         {
             if (typeof(T) == typeof(double))
                 Operations = new DoubleWrapper() as IOperations<T>;
-            else if (typeof(T) == typeof(int))
-                Operations = new IntWrapper() as IOperations<T>;
             else throw new NotSupportedException();
         }
 
@@ -26,6 +24,45 @@ namespace Bight.Tensor.Holder
         ///     1 (one). A primitive of the same type
         /// </returns>
         public T One => Operations.One;
+
+
+        /// <returns>
+        ///     If your elements are mutable, it
+        ///     might be useful to be able to copy
+        ///     them as well.
+        /// </returns>
+        public T Copy(T a)
+        {
+            return Operations.Copy(a);
+        }
+
+        /// <summary>
+        ///     Determines whether the instances
+        ///     of your objects are equal
+        /// </summary>
+        public bool AreEqual(T a, T b)
+        {
+            return Operations.AreEqual(a, b);
+        }
+
+        /// <summary>
+        ///     Whether the given instance is zero
+        /// </summary>
+        public bool IsZero(T a)
+        {
+            return Operations.IsZero(a);
+        }
+
+        /// <summary>
+        ///     Get the string representation of the instance
+        /// </summary>
+        public string ToString(T a)
+        {
+            return Operations.ToString(a);
+        }
+
+
+        #region
 
         /// <summary>
         ///     Rules of adding elements. Must return a new one.
@@ -87,39 +124,26 @@ namespace Bight.Tensor.Holder
             return Operations.Divide(a, b);
         }
 
-        /// <returns>
-        ///     If your elements are mutable, it
-        ///     might be useful to be able to copy
-        ///     them as well.
-        /// </returns>
-        public T Copy(T a)
+        public T Cos(T a)
         {
-            return Operations.Copy(a);
+            return Operations.Cos(a);
         }
 
-        /// <summary>
-        ///     Determines whether the instances
-        ///     of your objects are equal
-        /// </summary>
-        public bool AreEqual(T a, T b)
+        public T Sin(T a)
         {
-            return Operations.AreEqual(a, b);
+            return Operations.Sin(a);
         }
 
-        /// <summary>
-        ///     Whether the given instance is zero
-        /// </summary>
-        public bool IsZero(T a)
+        public T Tan(T a)
         {
-            return Operations.IsZero(a);
+            return Operations.Tan(a);
         }
 
-        /// <summary>
-        ///     Get the string representation of the instance
-        /// </summary>
-        public string ToString(T a)
+        public T Abs(T a)
         {
-            return Operations.ToString(a);
+            return Operations.Abs(a);
         }
+
+        #endregion
     }
 }

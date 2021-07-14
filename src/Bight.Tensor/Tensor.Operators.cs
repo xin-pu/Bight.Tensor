@@ -12,7 +12,7 @@ namespace Bight.Tensor
         public bool IsTensor => Rank >= 3;
         public bool IsContiguous => GetContiguous();
         public bool IsSquareMatrix => IsMatrix && Size.Reverse()[0] == Size.Reverse()[1];
-        private int Offset { set; get; } = 0;
+        public int Offset { set; get; } = 0;
 
 
         /// <summary>
