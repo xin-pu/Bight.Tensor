@@ -4,14 +4,14 @@ using YAXLib;
 
 namespace Bight.Tensor
 {
-    public class TensorShape : IEquatable<TensorShape>, ICloneable
+    public class TensorSize : IEquatable<TensorSize>, ICloneable
     {
         /// <summary>
         ///     Create a TensorShape for further operations
         ///     just listing necessary dimensions
         /// </summary>
         /// <param name="shape"></param>
-        public TensorShape(params int[] shape)
+        public TensorSize(params int[] shape)
         {
             this.shape = shape;
         }
@@ -40,7 +40,7 @@ namespace Bight.Tensor
             return serializer.Deserialize(res);
         }
 
-        public bool Equals(TensorShape other)
+        public bool Equals(TensorSize other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -56,16 +56,16 @@ namespace Bight.Tensor
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((TensorShape) obj);
+            return Equals((TensorSize) obj);
         }
 
 
-        internal TensorShape CutEnd()
+        internal TensorSize CutEnd()
         {
             var newShape = new int[Rank - 1];
             for (var i = 0; i < newShape.Length; i++)
                 newShape[i] = shape[i + 1];
-            return new TensorShape(newShape);
+            return new TensorSize(newShape);
         }
 
         internal void Swap(int id1, int id2)
@@ -82,28 +82,28 @@ namespace Bight.Tensor
         ///     Gets a sub shape as a subsequence with the given
         ///     left and right offsets
         /// </summary>
-        public TensorShape SubShape(int offsetFromLeft, int offsetFromRight)
+        public TensorSize SubShape(int offsetFromLeft, int offsetFromRight)
         {
             var newShape = new int[Rank - offsetFromLeft - offsetFromRight];
             for (var i = offsetFromLeft; i < Rank - offsetFromRight; i++)
                 newShape[i - offsetFromLeft] = shape[i];
-            return new TensorShape(newShape);
+            return new TensorSize(newShape);
         }
 
         /// <summary>
         ///     Reverse TShape
         /// </summary>
         /// <returns></returns>
-        public TensorShape Reverse()
+        public TensorSize Reverse()
         {
-            return new TensorShape(shape.Reverse().ToArray());
+            return new TensorSize(shape.Reverse().ToArray());
         }
 
-        public TensorShape SubTensorShape()
+        public TensorSize SubTensorShape()
         {
             var newshape = shape.ToList();
             newshape.RemoveAt(0);
-            return new TensorShape(newshape.ToArray());
+            return new TensorSize(newshape.ToArray());
         }
 
         /// <summary>
@@ -115,12 +115,12 @@ namespace Bight.Tensor
         }
 
 
-        public static bool operator ==(TensorShape s1, TensorShape s2)
+        public static bool operator ==(TensorSize s1, TensorSize s2)
         {
             return s1 is { } && s1.Equals(s2);
         }
 
-        public static bool operator !=(TensorShape s1, TensorShape s2)
+        public static bool operator !=(TensorSize s1, TensorSize s2)
         {
             return s1 is { } && !s1.Equals(s2);
         }

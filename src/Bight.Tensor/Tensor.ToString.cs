@@ -14,15 +14,15 @@ namespace Bight.Tensor
 
         internal string VectorToString(Tensor<T> vector)
         {
-            var size = vector.Shape[0];
+            var size = vector.Size[0];
             var data = Enumerable.Range(0, size)
-                .Select(i => Wrapper.ToString(vector.GetValueNoCheck(i)));
+                .Select(i => Holder.ToString(vector.GetValueNoCheck(i)));
             return $"[{string.Join("\t", data)}]";
         }
 
         internal string MatrixToString(Tensor<T> matrix)
         {
-            var height = matrix.Shape[0];
+            var height = matrix.Size[0];
             var data = Enumerable.Range(0, height)
                 .Select(i => VectorToString(matrix.GetSubTensor(i)));
             return $"[{string.Join(",\r", data)}]";
@@ -32,17 +32,17 @@ namespace Bight.Tensor
         {
             if (tensor.Rank == 3)
             {
-                var dims = tensor.Shape[0];
+                var dims = tensor.Size[0];
                 var data = Enumerable.Range(0, dims)
                     .Select(i => MatrixToString(tensor.GetSubTensor(i)));
                 return $"[{string.Join("\r\r", data)}]";
             }
             else
             {
-                var dims = tensor.Shape[0];
+                var dims = tensor.Size[0];
                 var data = Enumerable.Range(0, dims)
                     .Select(i => TensorToString(tensor.GetSubTensor(i)));
-                return $"[{string.Join("\r\r", data)}]";
+                return $"({string.Join("\r\r", data)})";
             }
         }
 
@@ -54,7 +54,7 @@ namespace Bight.Tensor
                 : IsMatrix
                     ? "- Matrix"
                     : "- Tensor";
-            return $"{title}\t{TType}\t{Shape}\r";
+            return $"{title}\t{DType.Name}\t{Size}\r";
         }
     }
 }

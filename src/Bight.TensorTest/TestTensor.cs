@@ -9,15 +9,15 @@ namespace Bight.TensorTest
     {
         private readonly ITestOutputHelper _testOutputHelper;
         private readonly Tensor<double> matrix;
-        private readonly Tensor<double> vector;
         private readonly Tensor<double> tensor;
+        private readonly Tensor<double> vector;
 
         public TestTensor(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
-            vector = new Tensor<double>(new TensorShape(3));
-            matrix = new Tensor<double>(new TensorShape(3, 3));
-            tensor = new Tensor<double>(new TensorShape(2, 3, 4));
+            vector = new Tensor<double>(new TensorSize(3));
+            matrix = new Tensor<double>(new TensorSize(3, 3));
+            tensor = new Tensor<double>(new TensorSize(2, 3, 4));
         }
 
         [Fact]

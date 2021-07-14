@@ -10,7 +10,7 @@ namespace Bight.Tensor
             if (id == -1)
                 return;
             indices[id]++;
-            if (indices[id] == Shape[id])
+            if (indices[id] == Size[id])
             {
                 indices[id] = 0;
                 NextIndex(indices, id - 1);
@@ -41,7 +41,7 @@ namespace Bight.Tensor
                 return false;
             }
 
-            var indices = new int[Shape.Rank - offsetFromLeft];
+            var indices = new int[Size.Rank - offsetFromLeft];
             do
             {
                 yield return indices;

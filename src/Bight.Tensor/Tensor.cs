@@ -1,60 +1,63 @@
 ﻿using System;
 using System.Linq;
-using Bight.Tensor.Wrap;
+using Bight.Tensor.Holder;
 using YAXLib;
 
 namespace Bight.Tensor
 {
     /// <summary>
-    ///     If more than 3 Rank you enter.
-    ///     For example [2,3,4] Shape you input
-    ///     You will get 2 Matrix with Matrix size [3,4]
+    ///     A PyTorch Tensor is a view over such a Storage that’s capable of indexing into that storage by using an offset and
+    ///     per-dimension strides.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public partial class Tensor<T> : ICloneable
         where T : struct
     {
         public Tensor(params int[] shape)
-            : this(new TensorShape(shape))
+            : this(new TensorSize(shape))
         {
         }
 
 
-        public Tensor(TensorShape shape)
+        public Tensor(TensorSize size)
         {
-            Shape = shape;
+            Size = size;
             DataResume();
         }
 
-        private Tensor(TensorShape shape, T[] data)
+        private Tensor(TensorSize size, T[] storage)
         {
-            Shape = shape;
-            Data = data;
+            Size = size;
+            Storage = storage;
         }
 
-        public string TType => typeof(T).Name;
+        internal Type DType => typeof(T);
 
-        public string Name { protected set; get; }
 
-        public T[] Data { set; get; }
+        /// <summary>
+        ///     A storage is a one-dimensional array of numerical data
+        ///     such as a contiguous block of memory containing numbers of
+        ///     a given type, perhaps a float or int32.
+        /// </summary>
+        public T[] Storage { set; get; }
 
-        public TensorShape Shape { set; get; }
+        public TensorSize Size { set; get; }
 
-        internal TensorShape BlockShape => GetBlockShape();
+        internal TensorSize Stride => GetBlockShape();
 
-        internal Wrapper<T> Wrapper => new Wrapper<T>();
+        internal Holder<T> Holder => new Holder<T>();
 
         /// <summary>
         ///     Number of elements in tensor overall
         ///     a tensor [2,3,4] will get volume 2*3*4
         /// </summary>
-        public int Volume => Shape.Volume;
+        public int Volume => Size.Volume;
 
         /// <summary>
         ///     Rank of tensor
         ///     a tensor [2,3,4] will get rank 3
         /// </summary>
-        public int Rank => Shape.Rank;
+        public int Rank => Size.Rank;
 
         public object Clone()
         {
@@ -66,20 +69,20 @@ namespace Bight.Tensor
 
         private void DataResume()
         {
-            var data = new T[Shape.Volume];
-            Data = data;
+            var data = new T[Size.Volume];
+            Storage = data;
         }
 
 
-        private TensorShape GetBlockShape()
+        private TensorSize GetBlockShape()
         {
-            var shapeRve = Shape.shape.Append(1).Reverse();
-            var blockShape = Enumerable.Range(1, Shape.Rank)
+            var shapeRve = Size.shape.Append(1).Reverse();
+            var blockShape = Enumerable.Range(1, Size.Rank)
                 .Select(r =>
                     shapeRve.Take(r).Aggregate((a, b) => a * b))
                 .Reverse()
                 .ToArray();
-            return new TensorShape(blockShape);
+            return new TensorSize(blockShape);
         }
     }
 }

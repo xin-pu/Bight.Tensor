@@ -21,7 +21,7 @@ namespace Bight.Tensor.Exception
         {
             if (m.Rank <= 2)
                 throw new InvalidShapeException("Should be 3+ dimensional");
-            if (m.Shape.shape[m.Shape.Rank - 1] != m.Shape.shape[m.Shape.Rank - 2])
+            if (m.Size.shape[m.Size.Rank - 1] != m.Size.shape[m.Size.Rank - 2])
                 throw new InvalidShapeException("The last two dimensions should be equal");
         }
     }

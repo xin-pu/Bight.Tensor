@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bight.Tensor.Wrap
+namespace Bight.Tensor.Holder
 {
     public class DoubleWrapper : IOperations<double>
     {

@@ -9,7 +9,7 @@ namespace Bight.Tensor
         public bool IsTensor => Rank >= 3;
         public bool IsMatrix => Rank == 2;
         public bool IsVector => Rank == 1;
-        public bool IsSquareMatrix => IsMatrix && Shape.Reverse()[0] == Shape.Reverse()[1];
+        public bool IsSquareMatrix => IsMatrix && Size.Reverse()[0] == Size.Reverse()[1];
 
 
         private int LinOffset { set; get; } = 0;
@@ -17,9 +17,9 @@ namespace Bight.Tensor
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ReactIfBadAxesVol(int vol, int axisId)
         {
-            if (vol < 0 || vol >= Shape.shape[axisId])
+            if (vol < 0 || vol >= Size.shape[axisId])
                 throw new IndexOutOfRangeException(
-                    $"Axes[{axisId}] should be {Shape.shape[axisId]} indices, not {vol}");
+                    $"Axes[{axisId}] should be {Size.shape[axisId]} indices, not {vol}");
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -36,7 +36,7 @@ namespace Bight.Tensor
             Enumerable.Range(0, indices.Length).ToList()
                 .ForEach(axes => { ReactIfBadAxesVol(indices[axes], axes); });
 
-            return LinOffset + indices.Zip(BlockShape.shape, (a, b) => a * b).Sum();
+            return LinOffset + indices.Zip(Stride.shape, (a, b) => a * b).Sum();
         }
 
 
@@ -45,7 +45,7 @@ namespace Bight.Tensor
         {
             ReactIfBadRank(1);
             ReactIfBadAxesVol(x, 0);
-            return LinOffset + BlockShape[0] * x;
+            return LinOffset + Stride[0] * x;
         }
 
         private int GetFlattenedIndexWithCheck(int x, int y)
@@ -53,7 +53,7 @@ namespace Bight.Tensor
             ReactIfBadRank(2);
             ReactIfBadAxesVol(x, 0);
             ReactIfBadAxesVol(y, 1);
-            return LinOffset + BlockShape[0] * x + BlockShape[1] * y;
+            return LinOffset + Stride[0] * x + Stride[1] * y;
         }
 
         private int GetFlattenedIndexWithCheck(int x, int y, int z)
@@ -63,25 +63,25 @@ namespace Bight.Tensor
             ReactIfBadAxesVol(x, 0);
             ReactIfBadAxesVol(y, 1);
             ReactIfBadAxesVol(z, 2);
-            return LinOffset + BlockShape[0] * x + BlockShape[1] * y + BlockShape[2] * z;
+            return LinOffset + Stride[0] * x + Stride[1] * y + Stride[2] * z;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal int GetFlattenedIndexSilent(int x)
-            => BlockShape[0] * x +
+            => Stride[0] * x +
                LinOffset;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal int GetFlattenedIndexSilent(int x, int y)
-            => BlockShape[0] * x +
-               BlockShape[1] * y +
+            => Stride[0] * x +
+               Stride[1] * y +
                LinOffset;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal int GetFlattenedIndexSilent(int x, int y, int z)
-            => BlockShape[0] * x +
-               BlockShape[1] * y +
-               BlockShape[2] * z +
+            => Stride[0] * x +
+               Stride[1] * y +
+               Stride[2] * z +
                LinOffset;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -89,7 +89,7 @@ namespace Bight.Tensor
         {
             var res = GetFlattenedIndexSilent(x, y, z);
             for (int i = 0; i < other.Length; i++)
-                res += other[i] * BlockShape[i + 3];
+                res += other[i] * Stride[i + 3];
             return res;
         }
 
@@ -98,7 +98,7 @@ namespace Bight.Tensor
         {
             var res = 0;
             for (int i = 0; i < other.Length; i++)
-                res += other[i] * BlockShape[i];
+                res += other[i] * Stride[i];
             return res + LinOffset;
         }
 
@@ -108,7 +108,7 @@ namespace Bight.Tensor
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T GetValueNoCheck(int x)
         {
-            return Data[GetFlattenedIndexSilent(x)];
+            return Storage[GetFlattenedIndexSilent(x)];
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Bight.Tensor
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T GetValueNoCheck(int x, int y)
         {
-            return Data[GetFlattenedIndexSilent(x, y)];
+            return Storage[GetFlattenedIndexSilent(x, y)];
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Bight.Tensor
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T GetValueNoCheck(int x, int y, int z)
         {
-            return Data[GetFlattenedIndexSilent(x, y, z)];
+            return Storage[GetFlattenedIndexSilent(x, y, z)];
         }
 
         /// <summary>
@@ -134,84 +134,84 @@ namespace Bight.Tensor
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T GetValueNoCheck(int x, int y, int z, int[] indices)
-            => Data[GetFlattenedIndexSilent(x, y, z, indices)];
+            => Storage[GetFlattenedIndexSilent(x, y, z, indices)];
 
         /// <summary>
         /// Gets the value without checking and without throwing an exception
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T GetValueNoCheck(int[] indices)
-            => Data[GetFlattenedIndexSilent(indices)];
+            => Storage[GetFlattenedIndexSilent(indices)];
 
         /// <summary>
         /// Gets the value without checking and without throwing an exception
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetValueNoCheck(T value, int x)
-            => Data[GetFlattenedIndexSilent(x)] = value;
+            => Storage[GetFlattenedIndexSilent(x)] = value;
 
         /// <summary>
         /// Gets the value without checking and without throwing an exception
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetValueNoCheck(T value, int x, int y)
-            => Data[GetFlattenedIndexSilent(x, y)] = value;
+            => Storage[GetFlattenedIndexSilent(x, y)] = value;
 
         /// <summary>
         /// Gets the value without checking and without throwing an exception
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetValueNoCheck(T value, int x, int y, int z)
-            => Data[GetFlattenedIndexSilent(x, y, z)] = value;
+            => Storage[GetFlattenedIndexSilent(x, y, z)] = value;
 
         /// <summary>
         /// Gets the value without checking and without throwing an exception
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetValueNoCheck(T value, int x, int y, int z, int[] other)
-            => Data[GetFlattenedIndexSilent(x, y, z, other)] = value;
+            => Storage[GetFlattenedIndexSilent(x, y, z, other)] = value;
 
         /// <summary>
         /// Gets the value without checking and without throwing an exception
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetValueNoCheck(T value, int[] indices)
-            => Data[GetFlattenedIndexSilent(indices)] = value;
+            => Storage[GetFlattenedIndexSilent(indices)] = value;
 
         /// <summary>
         /// Gets the value without checking and without throwing an exception
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetValueNoCheck(Func<T> valueCreator, int x)
-            => Data[GetFlattenedIndexSilent(x)] = valueCreator();
+            => Storage[GetFlattenedIndexSilent(x)] = valueCreator();
 
         /// <summary>
         /// Gets the value without checking and without throwing an exception
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetValueNoCheck(Func<T> valueCreator, int x, int y)
-            => Data[GetFlattenedIndexSilent(x, y)] = valueCreator();
+            => Storage[GetFlattenedIndexSilent(x, y)] = valueCreator();
 
         /// <summary>
         /// Sets the value without checking and without throwing an exception
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetValueNoCheck(Func<T> valueCreator, int x, int y, int z)
-            => Data[GetFlattenedIndexSilent(x, y, z)] = valueCreator();
+            => Storage[GetFlattenedIndexSilent(x, y, z)] = valueCreator();
 
         /// <summary>
         /// Sets the value without checking and without throwing an exception
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetValueNoCheck(Func<T> valueCreator, int x, int y, int z, int[] indices)
-            => Data[GetFlattenedIndexSilent(x, y, z, indices)] = valueCreator();
+            => Storage[GetFlattenedIndexSilent(x, y, z, indices)] = valueCreator();
 
         /// <summary>
         /// Sets the value without checking and without throwing an exception
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetValueNoCheck(Func<T> valueCreator, int[] indices)
-            => Data[GetFlattenedIndexSilent(indices)] = valueCreator();
+            => Storage[GetFlattenedIndexSilent(indices)] = valueCreator();
 
 
 
@@ -238,9 +238,9 @@ namespace Bight.Tensor
 
             ReactIfBadAxesVol(index, 0);
             var newLinIndexDelta = GetFlattenedIndexSilent(index);
-            var newShape = Shape.SubTensorShape();
+            var newShape = Size.SubTensorShape();
 
-            var result = new Tensor<T>(newShape, Data)
+            var result = new Tensor<T>(newShape, Storage)
             {
                 LinOffset = newLinIndexDelta
             };
@@ -249,15 +249,15 @@ namespace Bight.Tensor
 
         private void SetSubTensor(Tensor<T> subTensor, params int[] indices)
         {
-            if (indices.Rank >= Shape.Rank)
+            if (indices.Rank >= Size.Rank)
                 throw new ArgumentException(
-                    $"Number of {nameof(indices)} should be less than number of {nameof(Shape)}");
+                    $"Number of {nameof(indices)} should be less than number of {nameof(Size)}");
             for (int i = 0; i < indices.Length; i++)
-                if (indices[i] < 0 || indices[i] >= Shape[i])
+                if (indices[i] < 0 || indices[i] >= Size[i])
                     throw new ArgumentException();
-            if (Shape.Rank - indices.Length != subTensor.Rank)
+            if (Size.Rank - indices.Length != subTensor.Rank)
                 throw new ArgumentException(
-                    $"Number of {nameof(subTensor.Rank)} + {nameof(indices.Length)} should be equal to {Shape.Rank}");
+                    $"Number of {nameof(subTensor.Rank)} + {nameof(indices.Length)} should be equal to {Size.Rank}");
 
         }
 
@@ -266,8 +266,8 @@ namespace Bight.Tensor
         /// </summary>
         public T this[params int[] indices]
         {
-            get => Data[GetFlattenedIndexWithCheck(indices)];
-            set => Data[GetFlattenedIndexWithCheck(indices)] = value;
+            get => Storage[GetFlattenedIndexWithCheck(indices)];
+            set => Storage[GetFlattenedIndexWithCheck(indices)] = value;
         }
 
 
@@ -280,8 +280,8 @@ namespace Bight.Tensor
         /// </summary>
         public T this[int x]
         {
-            get => Data[GetFlattenedIndexWithCheck(x)];
-            set => Data[GetFlattenedIndexWithCheck(x)] = value;
+            get => Storage[GetFlattenedIndexWithCheck(x)];
+            set => Storage[GetFlattenedIndexWithCheck(x)] = value;
         }
 
 
@@ -294,8 +294,8 @@ namespace Bight.Tensor
         /// </summary>
         public T this[int x, int y, int z]
         {
-            get => Data[GetFlattenedIndexWithCheck(x, y, z)];
-            set => Data[GetFlattenedIndexWithCheck(x, y, z)] = value;
+            get => Storage[GetFlattenedIndexWithCheck(x, y, z)];
+            set => Storage[GetFlattenedIndexWithCheck(x, y, z)] = value;
         }
 
         /// <summary>
@@ -307,18 +307,11 @@ namespace Bight.Tensor
         /// </summary>
         public T this[int x, int y]
         {
-            get => Data[GetFlattenedIndexWithCheck(x, y)];
-            set => Data[GetFlattenedIndexWithCheck(x, y)] = value;
+            get => Storage[GetFlattenedIndexWithCheck(x, y)];
+            set => Storage[GetFlattenedIndexWithCheck(x, y)] = value;
         }
 
 
-        #region Tranpose
-   
-        #endregion
-
-
-        #region Slice
-
-        #endregion
+       
     }
 }

@@ -1,16 +1,31 @@
-﻿namespace Bight.Tensor.Wrap
+﻿using System;
+
+namespace Bight.Tensor.Holder
 {
-    public interface IOperations<T>
+    public class Holder<T>
+        where T : struct
     {
-        /// <returns>
-        ///     1 (one). A primitive of the same type
-        /// </returns>
-        T One { get; }
+        public Holder()
+        {
+            if (typeof(T) == typeof(double))
+                Operations = new DoubleWrapper() as IOperations<T>;
+            else if (typeof(T) == typeof(int))
+                Operations = new IntWrapper() as IOperations<T>;
+            else throw new NotSupportedException();
+        }
+
+        public IOperations<T> Operations { set; get; }
+
 
         /// <returns>
         ///     0 (zero). A primitive of the same type
         /// </returns>
-        T Zero { get; }
+        public T Zero => Operations.Zero;
+
+        /// <returns>
+        ///     1 (one). A primitive of the same type
+        /// </returns>
+        public T One => Operations.One;
 
         /// <summary>
         ///     Rules of adding elements. Must return a new one.
@@ -19,7 +34,10 @@
         /// <returns>
         ///     A primitive of the same type
         /// </returns>
-        T Add(T a, T b);
+        public T Add(T a, T b)
+        {
+            return Operations.Add(a, b);
+        }
 
         /// <summary>
         ///     Rules of subtracting elements. Must return a new one.
@@ -28,7 +46,10 @@
         /// <returns>
         ///     A primitive of the same type
         /// </returns>
-        T Subtract(T a, T b);
+        public T Subtract(T a, T b)
+        {
+            return Operations.Subtract(a, b);
+        }
 
         /// <summary>
         ///     Rules of multiplying elements. Must return a new one.
@@ -37,7 +58,10 @@
         /// <returns>
         ///     A primitive of the same type
         /// </returns>
-        T Multiply(T a, T b);
+        public T Multiply(T a, T b)
+        {
+            return Operations.Multiply(a, b);
+        }
 
         /// <summary>
         ///     Rules of multiplying an element by -1. Must return a new one.
@@ -46,7 +70,10 @@
         /// <returns>
         ///     A primitive of the same type
         /// </returns>
-        T Negate(T a);
+        public T Negate(T a)
+        {
+            return Operations.Negate(a);
+        }
 
         /// <summary>
         ///     Rules of dividing elements. Must return a new one.
@@ -55,29 +82,44 @@
         /// <returns>
         ///     A primitive of the same type
         /// </returns>
-        T Divide(T a, T b);
+        public T Divide(T a, T b)
+        {
+            return Operations.Divide(a, b);
+        }
 
         /// <returns>
         ///     If your elements are mutable, it
         ///     might be useful to be able to copy
         ///     them as well.
         /// </returns>
-        T Copy(T a);
+        public T Copy(T a)
+        {
+            return Operations.Copy(a);
+        }
 
         /// <summary>
         ///     Determines whether the instances
         ///     of your objects are equal
         /// </summary>
-        bool AreEqual(T a, T b);
+        public bool AreEqual(T a, T b)
+        {
+            return Operations.AreEqual(a, b);
+        }
 
         /// <summary>
         ///     Whether the given instance is zero
         /// </summary>
-        bool IsZero(T a);
+        public bool IsZero(T a)
+        {
+            return Operations.IsZero(a);
+        }
 
         /// <summary>
         ///     Get the string representation of the instance
         /// </summary>
-        string ToString(T a);
+        public string ToString(T a)
+        {
+            return Operations.ToString(a);
+        }
     }
 }

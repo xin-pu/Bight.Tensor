@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Bight.Tensor.Exception;
-using Bight.Tensor.Wrap;
+using Bight.Tensor.Holder;
 
 namespace Bight.Tensor
 {
@@ -194,7 +194,7 @@ namespace Bight.Tensor
 
         public static Tensor<T> BuildIdentityMatrix(int diag)
         {
-            var wrapper = new Wrapper<T>();
+            var wrapper = new Holder<T>();
             var tensor = BuildZeros(diag, diag);
             for (var i = 0; i < diag; i++)
                 tensor.SetValueNoCheck(wrapper.One, i, i);
@@ -207,15 +207,15 @@ namespace Bight.Tensor
 
         public static Tensor<T> BuildZeros(params int[] shape)
         {
-            return BuildZeros(new TensorShape(shape));
+            return BuildZeros(new TensorSize(shape));
         }
 
-        public static Tensor<T> BuildZeros(TensorShape shape)
+        public static Tensor<T> BuildZeros(TensorSize size)
         {
-            var wrapper = new Wrapper<T>();
-            var tensor = new Tensor<T>(shape)
+            var wrapper = new Holder<T>();
+            var tensor = new Tensor<T>(size)
             {
-                Data = Enumerable.Repeat(wrapper.Zero, shape.Volume).ToArray()
+                Storage = Enumerable.Repeat(wrapper.Zero, size.Volume).ToArray()
             };
             return tensor;
         }
@@ -226,15 +226,15 @@ namespace Bight.Tensor
 
         public static Tensor<T> BuildOnes(params int[] shape)
         {
-            return BuildOnes(new TensorShape(shape));
+            return BuildOnes(new TensorSize(shape));
         }
 
-        public static Tensor<T> BuildOnes(TensorShape shape)
+        public static Tensor<T> BuildOnes(TensorSize size)
         {
-            var wrapper = new Wrapper<T>();
-            var tensor = new Tensor<T>(shape)
+            var wrapper = new Holder<T>();
+            var tensor = new Tensor<T>(size)
             {
-                Data = Enumerable.Repeat(wrapper.One, shape.Volume).ToArray()
+                Storage = Enumerable.Repeat(wrapper.One, size.Volume).ToArray()
             };
             return tensor;
         }

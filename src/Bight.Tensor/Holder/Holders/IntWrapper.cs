@@ -1,4 +1,4 @@
-﻿namespace Bight.Tensor.Wrap
+﻿namespace Bight.Tensor.Holder
 {
     public class IntWrapper : IOperations<int>
     {
