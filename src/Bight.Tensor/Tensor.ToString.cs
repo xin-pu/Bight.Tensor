@@ -41,7 +41,7 @@ namespace Bight.Tensor
             {
                 var dims = tensor.Size[0];
                 var data = Enumerable.Range(0, dims)
-                    .Select(i => TensorToString(tensor.GetSubTensor(i)));
+                    .Select(i => (i == 0 ? "" : " ") + TensorToString(tensor.GetSubTensor(i)));
                 return $"({string.Join("\r\r", data)})";
             }
         }
@@ -50,11 +50,11 @@ namespace Bight.Tensor
         internal string TensorTitle()
         {
             var title = IsVector
-                ? "- Vector"
+                ? "Vector"
                 : IsMatrix
-                    ? "- Matrix"
-                    : "- Tensor";
-            return $"{title}\t{DType.Name}\t{Size}\r";
+                    ? "Matrix"
+                    : "Tensor";
+            return $"{title}({DType.Name})\t{Size}\r";
         }
     }
 }

@@ -60,9 +60,46 @@ namespace Bight.TensorTest
             t[0, 0, 0] = 3F;
             t[0, 1, 0] = 4F;
             t[1, 0, 0] = 5F;
-            var subT = t.GetSubTensor(0);
+            var subM = t.GetSubTensor(0);
+            var sunV = subM.GetSubTensor(1);
             _testOutputHelper.WriteLine(t.ToString());
-            _testOutputHelper.WriteLine(subT.ToString());
+            _testOutputHelper.WriteLine(subM.ToString());
+            _testOutputHelper.WriteLine(sunV.ToString());
+        }
+
+
+        [Fact]
+        public void TestTranspose()
+        {
+            var t = Tensor<double>.BuildTensor(new double[,,]
+            {
+                {
+                    {3, 1, 2, 1},
+                    {4, 1, 7, 8},
+                    {5, 1, 7, 8}
+                },
+                {
+                    {3, 1, 2, 1},
+                    {4, 1, 7, 8},
+                    {4, 1, 7, 8}
+                }
+            });
+
+            _testOutputHelper.WriteLine(t.ToString());
+            t.Transpose();
+            _testOutputHelper.WriteLine(t.ToString());
+        }
+
+        [Fact]
+        public void TestTranspose2()
+        {
+            var t = Tensor<double>.BuildIdentityMatrix(3);
+            t.SetValueNoCheck(2, 1);
+            _testOutputHelper.WriteLine(t.ToString());
+            _testOutputHelper.WriteLine(t.GetSubTensor(0).ToString());
+            t.Transpose();
+            _testOutputHelper.WriteLine(t.ToString());
+            _testOutputHelper.WriteLine(t.GetSubTensor(0).ToString());
         }
     }
 }

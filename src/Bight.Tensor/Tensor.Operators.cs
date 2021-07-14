@@ -10,6 +10,7 @@ namespace Bight.Tensor
         public bool IsVector => Rank == 1;
         public bool IsMatrix => Rank == 2;
         public bool IsTensor => Rank >= 3;
+        public bool IsContiguous => true;
         public bool IsSquareMatrix => IsMatrix && Size.Reverse()[0] == Size.Reverse()[1];
         private int Offset { set; get; } = 0;
 
@@ -312,8 +313,8 @@ namespace Bight.Tensor
             ReactIfBadAxesVol(index, 0);
             var newLinIndexDelta = GetFlattenedIndexSilent(index);
             var newShape = Size.SubTensorShape();
-
-            return new Tensor<T>(newShape, Storage)
+            var newBlocks = Stride.SubTensorShape();
+            return new Tensor<T>(newShape, newBlocks, Storage)
             {
                 Offset = newLinIndexDelta
             };
@@ -342,5 +343,29 @@ namespace Bight.Tensor
             foreach (var (index, value) in subTensor.Iterate())
                 SetValueNoCheck(value, index);
         }
+
+
+        public void Transpose(int axis1 = -1, int axis2 = -1)
+        {
+            if (!IsMatrix && !IsTensor)
+            {
+                throw new InvalidShapeException("this should be at least matrix");
+            }
+
+            if (axis1 == -1 && axis2 == -1)
+            {
+                Stride.Swap(Rank - 2, Rank - 1);
+                Size.Swap(Rank - 2, Rank - 1);
+               
+            }
+            else
+            {
+                Stride.Swap(axis1, axis2);
+                Size.Swap(axis1, axis2);
+               
+            }
+        }
+
+
     }
 }

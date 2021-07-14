@@ -131,6 +131,11 @@ namespace Bight.Tensor
             return res;
         }
 
+        /// <summary>
+        ///     Todo optimize function
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Tensor<T> BuildTensor(Array data)
         {

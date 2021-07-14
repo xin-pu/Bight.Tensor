@@ -133,7 +133,7 @@ namespace Bight.Tensor
 
         public override string ToString()
         {
-            return $"<{string.Join(" × ", shape)}>";
+            return $"[{string.Join(" × ", shape)}]";
         }
     }
 }
