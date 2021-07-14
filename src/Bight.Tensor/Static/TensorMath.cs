@@ -5,11 +5,16 @@ using Bight.Tensor.Holder;
 
 namespace Bight.Tensor.Static
 {
-    public class TensorMath<T>
+    public partial class TensorMath<T>
         where T : struct
     {
         public static Holder<T> Holder = new Holder<T>();
 
+        /// <summary>
+        ///     Return a new Tensor
+        /// </summary>
+        /// <param name="tensor"></param>
+        /// <returns></returns>
         public static Tensor<T> Abs(Tensor<T> tensor)
         {
             var res = new Tensor<T>(tensor.Size);
@@ -18,29 +23,6 @@ namespace Bight.Tensor.Static
             return res;
         }
 
-        public static Tensor<T> Cos(Tensor<T> tensor)
-        {
-            var res = new Tensor<T>(tensor.Size);
-            foreach (var (index, value) in tensor.Iterate())
-                res.SetValueNoCheck(Holder.Cos(value), index);
-            return res;
-        }
-
-        public static Tensor<T> Sin(Tensor<T> tensor)
-        {
-            var res = new Tensor<T>(tensor.Size);
-            foreach (var (index, value) in tensor.Iterate())
-                res.SetValueNoCheck(Holder.Sin(value), index);
-            return res;
-        }
-
-        public static Tensor<T> Tan(Tensor<T> tensor)
-        {
-            var res = new Tensor<T>(tensor.Size);
-            foreach (var (index, value) in tensor.Iterate())
-                res.SetValueNoCheck(Holder.Tan(value), index);
-            return res;
-        }
 
         public static Tensor<T> Negate(Tensor<T> tensor)
         {

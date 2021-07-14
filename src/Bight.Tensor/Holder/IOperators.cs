@@ -87,7 +87,12 @@
         T Sin(T a);
         T Cos(T a);
         T Tan(T a);
-
+        T Sinh(T a);
+        T Cosh(T a);
+        T Tanh(T a);
+        T Asin(T a);
+        T Acos(T a);
+        T Atan(T a);
 
         T Abs(T a);
 

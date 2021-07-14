@@ -139,6 +139,36 @@ namespace Bight.Tensor.Holder
             return Operations.Tan(a);
         }
 
+        public T Sinh(T a)
+        {
+            return Operations.Sinh(a);
+        }
+
+        public T Cosh(T a)
+        {
+            return Operations.Cosh(a);
+        }
+
+        public T Tanh(T a)
+        {
+            return Operations.Tanh(a);
+        }
+
+        public T Asin(T a)
+        {
+            return Operations.Asin(a);
+        }
+
+        public T Acos(T a)
+        {
+            return Operations.Acos(a);
+        }
+
+        public T Atan(T a)
+        {
+            return Operations.Atan(a);
+        }
+
         public T Abs(T a)
         {
             return Operations.Abs(a);
