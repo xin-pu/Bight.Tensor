@@ -1,4 +1,6 @@
 ﻿using Bight.Tensor;
+using Bight.Tensor.Matrix;
+using Bight.Tensor.Vector;
 using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
@@ -100,6 +102,16 @@ namespace Bight.TensorTest
             t.Transpose();
             _testOutputHelper.WriteLine(t.ToString());
             _testOutputHelper.WriteLine(t.IsContiguous.ToString());
+        }
+
+        [Fact]
+        public void TestMatrix()
+        {
+            var vector1 = new Vector<double>(4);
+            _testOutputHelper.WriteLine(vector1.ToString());
+
+            var matrix1 = new Matrix<double>(3, 3);
+            _testOutputHelper.WriteLine(matrix1.ToString());
         }
     }
 }

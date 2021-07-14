@@ -47,10 +47,6 @@ namespace Bight.Tensor
 
         public TensorSize Stride { set; get; }
 
-        /// <summary>
-        ///     Todo Add Mask Tensor
-        /// </summary>
-        public Tensor<bool> MaskTensor { set; get; }
 
         internal static Holder<T> Holder => new Holder<T>();
 
