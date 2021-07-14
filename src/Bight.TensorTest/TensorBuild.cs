@@ -90,5 +90,12 @@ namespace Bight.TensorTest
             var identityMatrix = Tensor<double>.BuildIdentityMatrix(3);
             _testOutputHelper.WriteLine(identityMatrix.ToString());
         }
+
+        [Fact]
+        public void BuildIdentityTensor()
+        {
+            var inIdentityTensor = Tensor<double>.BuildIdentityTensor(new[] {2}, 3);
+            _testOutputHelper.WriteLine(inIdentityTensor.ToString());
+        }
     }
 }

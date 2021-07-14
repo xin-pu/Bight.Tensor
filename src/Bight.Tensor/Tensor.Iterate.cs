@@ -3,18 +3,54 @@ using System.Linq;
 
 namespace Bight.Tensor
 {
+    /// <summary>
+    ///     Iterate.cs Make it easy to Iterate Tensor by Element, Vector, or Matrix
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public partial class Tensor<T>
     {
+        /// Iterate over array of indices and a value in TPrimitive
+        /// </summary>
+        public IEnumerable<(int[] Index, T Value)> Iterate()
+        {
+            foreach (var ind in IterateOver(0))
+                yield return (ind, GetValueNoCheck(ind));
+        }
+
+
+        /// <summary>
+        ///     IterateOver where yourTensor[index] is always an element
+        /// </summary>
+        public IEnumerable<int[]> IterateOverScalars()
+        {
+            return IterateOver(0);
+        }
+
+        /// <summary>
+        ///     IterateOver where yourTensor[index] is always a vector
+        /// </summary>
+        public IEnumerable<int[]> IterateOverVectors()
+        {
+            return IterateOver(1);
+        }
+
+        /// <summary>
+        ///     IterateOver where yourTensor[index] is always a matrix
+        /// </summary>
+        public IEnumerable<int[]> IterateOverMatrices()
+        {
+            return IterateOver(2);
+        }
+
+
         private void NextIndex(int[] indices, int id)
         {
             if (id == -1)
                 return;
             indices[id]++;
-            if (indices[id] == Size[id])
-            {
-                indices[id] = 0;
-                NextIndex(indices, id - 1);
-            }
+            if (indices[id] != Size[id]) return;
+            indices[id] = 0;
+            NextIndex(indices, id - 1);
         }
 
         /// <summary>
@@ -31,14 +67,11 @@ namespace Bight.Tensor
         /// </summary>
         /// <param name="offsetFromLeft"></param>
         /// <returns></returns>
-        public IEnumerable<int[]> IterateOver(int offsetFromLeft)
+        private IEnumerable<int[]> IterateOver(int offsetFromLeft)
         {
             static bool SumIsNot0(int[] arr)
             {
-                foreach (var a in arr)
-                    if (a != 0)
-                        return true;
-                return false;
+                return arr.Any(a => a != 0);
             }
 
             var indices = new int[Size.Rank - offsetFromLeft];
@@ -46,7 +79,8 @@ namespace Bight.Tensor
             {
                 yield return indices;
                 NextIndex(indices, indices.Length - 1);
-            } while (SumIsNot0(indices)); // for tensor 4 x 3 x 2 the first violating index would be 5  0  0 
+            } while (SumIsNot0(indices));
+            // for tensor 4 x 3 x 2 the first violating index would be 5  0  0 
         }
 
         /// <summary>
@@ -65,33 +99,7 @@ namespace Bight.Tensor
         /// <returns></returns>
         public IEnumerable<int[]> IterateOverCopy(int offsetFromLeft)
         {
-            foreach (var inds in IterateOver(offsetFromLeft))
-                yield return inds.ToArray();
-        }
-
-
-        /// <summary>
-        ///     IterateOver where yourTensor[index] is always a matrix
-        /// </summary>
-        public IEnumerable<int[]> IterateOverMatrices()
-        {
-            return IterateOver(2);
-        }
-
-        /// <summary>
-        ///     IterateOver where yourTensor[index] is always a vector
-        /// </summary>
-        public IEnumerable<int[]> IterateOverVectors()
-        {
-            return IterateOver(1);
-        }
-
-        /// <summary>
-        ///     IterateOver where yourTensor[index] is always an element
-        /// </summary>
-        public IEnumerable<int[]> IterateOverElements()
-        {
-            return IterateOver(0);
+            return IterateOver(offsetFromLeft).Select(inds => inds.ToArray());
         }
     }
 }

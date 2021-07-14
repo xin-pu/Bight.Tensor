@@ -5,12 +5,12 @@ using Xunit.Abstractions;
 
 namespace Bight.TensorTest
 {
-    public class TestTensorClone
+    public class TensorClone
     {
         private readonly ITestOutputHelper _testOutputHelper;
         public Tensor<double> OnesTensor = Tensor<double>.BuildOnes(3, 4);
 
-        public TestTensorClone(ITestOutputHelper testOutputHelper)
+        public TensorClone(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
         }

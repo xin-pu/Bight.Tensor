@@ -31,6 +31,7 @@ namespace Bight.Tensor
             Storage = storage;
         }
 
+
         internal Type DType => typeof(T);
 
 
@@ -43,7 +44,7 @@ namespace Bight.Tensor
 
         public TensorSize Size { set; get; }
 
-        internal TensorSize Stride => GetBlockShape();
+        internal TensorSize Stride => GetStride();
 
         internal Holder<T> Holder => new Holder<T>();
 
@@ -69,12 +70,11 @@ namespace Bight.Tensor
 
         private void DataResume()
         {
-            var data = new T[Size.Volume];
-            Storage = data;
+            Storage = new T[Size.Volume];
         }
 
 
-        private TensorSize GetBlockShape()
+        private TensorSize GetStride()
         {
             var shapeRve = Size.shape.Append(1).Reverse();
             var blockShape = Enumerable.Range(1, Size.Rank)

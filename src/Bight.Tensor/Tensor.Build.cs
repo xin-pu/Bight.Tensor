@@ -176,19 +176,16 @@ namespace Bight.Tensor
 
         public static Tensor<T> BuildIdentityTensor(int[] dimensions, int matrixDiag)
         {
-            var newDims = new int[dimensions.Length + 2];
-            //for (var i = 0; i < dimensions.Length; i++)
-            //    newDims[i] = dimensions[i];
-            //newDims[newDims.Length - 2] = newDims[newDims.Length - 1] = matrixDiag;
-            //var res = new Tensor<T>(newDims);
-            //foreach (var index in res.IterateOverMatrices())
-            //{
-            //    var iden = BuildIdentityMatrix(matrixDiag);
-            //    res.SetSubTensor(iden, index);
-            //}
+            var dims = dimensions.ToList();
+            dims.AddRange(new[] {matrixDiag, matrixDiag});
+            var res = new Tensor<T>(dims.ToArray());
+            foreach (var index in res.IterateOverMatrices())
+            {
+                var iden = BuildIdentityMatrix(matrixDiag);
+                res.SetSubTensor(iden, index);
+            }
 
-            //return res;
-            throw new InvalidOperationException();
+            return res;
         }
 
 
