@@ -23,7 +23,7 @@ namespace Bight.Tensor
         {
             Size = size;
             Storage = new T[Size.Volume];
-            Stride = InitialStride();
+            Stride = GetDefaultlStride();
         }
 
         public Tensor(TensorSize size, TensorSize stride, T[] storage)
@@ -69,7 +69,7 @@ namespace Bight.Tensor
         }
 
 
-        private TensorSize InitialStride()
+        private TensorSize GetDefaultlStride()
         {
             var shapeRve = Size.shape.Append(1).Reverse();
             var blockShape = Enumerable.Range(1, Size.Rank)
@@ -78,6 +78,11 @@ namespace Bight.Tensor
                 .Reverse()
                 .ToArray();
             return new TensorSize(blockShape);
+        }
+
+        private bool GetContiguous()
+        {
+            return GetDefaultlStride().Equals(Stride);
         }
     }
 }

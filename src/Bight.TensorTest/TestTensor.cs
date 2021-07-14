@@ -96,10 +96,10 @@ namespace Bight.TensorTest
             var t = Tensor<double>.BuildIdentityMatrix(3);
             t.SetValueNoCheck(2, 1);
             _testOutputHelper.WriteLine(t.ToString());
-            _testOutputHelper.WriteLine(t.GetSubTensor(0).ToString());
+            _testOutputHelper.WriteLine(t.IsContiguous.ToString());
             t.Transpose();
             _testOutputHelper.WriteLine(t.ToString());
-            _testOutputHelper.WriteLine(t.GetSubTensor(0).ToString());
+            _testOutputHelper.WriteLine(t.IsContiguous.ToString());
         }
     }
 }
