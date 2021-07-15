@@ -205,6 +205,11 @@ namespace Bight.Tensor
 
         #endregion
 
+
+        #region Random
+
+        #endregion
+
         #region Zeros
 
         public static Tensor<T> BuildZeros(Tensor<T> tensor)

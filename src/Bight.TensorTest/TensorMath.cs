@@ -1,4 +1,5 @@
 ﻿using Bight.Tensor;
+using Bight.Tensor.Static;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -61,6 +62,29 @@ namespace Bight.TensorTest
             _testOutputHelper.WriteLine($"Min:{tensor1.Min()}");
             _testOutputHelper.WriteLine($"Max:{tensor1.Max()}");
             _testOutputHelper.WriteLine($"Sum:{tensor1.Sum()}");
+        }
+
+
+        [Fact]
+        public void TestAdd()
+        {
+            var tensor = TensorOps<double>.Add(tensor1, tensor1);
+            _testOutputHelper.WriteLine(tensor.ToString());
+        }
+
+
+        [Fact]
+        public void TestAddN()
+        {
+            var tensor = TensorOps<double>.AddN(tensor1, tensor1, tensor1, tensor1);
+            _testOutputHelper.WriteLine(tensor.ToString());
+        }
+
+        [Fact]
+        public void TestRound()
+        {
+            var tensor = TensorOps<double>.Round(tensor1);
+            _testOutputHelper.WriteLine(tensor.ToString());
         }
     }
 }

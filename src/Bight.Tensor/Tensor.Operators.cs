@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Bight.Tensor.Exception;
+using Bight.Tensor.Static;
 
 namespace Bight.Tensor
 {
@@ -316,11 +317,9 @@ namespace Bight.Tensor
             }
         }
 
-        public void Stack(Tensor<T> tensor)
+        public Tensor<T> Stack(Tensor<T> tensor)
         {
-
+            return TensorOps<T>.Stack(this, tensor);
         }
-
-
     }
 }

@@ -14,7 +14,6 @@ namespace Bight.Tensor.Holder
 
         public IOperations<T> Operations { set; get; }
 
-
         /// <returns>
         ///     0 (zero). A primitive of the same type
         /// </returns>
@@ -24,7 +23,6 @@ namespace Bight.Tensor.Holder
         ///     1 (one). A primitive of the same type
         /// </returns>
         public T One => Operations.One;
-
 
         /// <returns>
         ///     If your elements are mutable, it
