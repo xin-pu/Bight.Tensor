@@ -86,5 +86,26 @@ namespace Bight.TensorTest
             var tensor = TensorOps<double>.Round(tensor1);
             _testOutputHelper.WriteLine(tensor.ToString());
         }
+
+        [Fact]
+        public void TestSqrt()
+        {
+            var tensor = TensorOps<double>.Sqrt(tensor1);
+            _testOutputHelper.WriteLine(tensor.ToString());
+        }
+
+        [Fact]
+        public void TestSquare()
+        {
+            var tensor = TensorOps<double>.Square(tensor1);
+            _testOutputHelper.WriteLine(tensor.ToString());
+        }
+
+        [Fact]
+        public void TestLog10()
+        {
+            var tensor = TensorOps<double>.Log10(tensor1);
+            _testOutputHelper.WriteLine(tensor.ToString());
+        }
     }
 }

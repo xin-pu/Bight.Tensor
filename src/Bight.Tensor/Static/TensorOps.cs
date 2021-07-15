@@ -128,6 +128,53 @@ namespace Bight.Tensor.Static
             return newtensor;
         }
 
+        public static Tensor<T> Sqrt(Tensor<T> tensor)
+        {
+            var newtensor = Tensor<T>.BuildZeros(tensor);
+            foreach (var VARIABLE in newtensor.Iterate())
+            {
+                var value = double.Parse(tensor[VARIABLE.Index].ToString() ?? string.Empty);
+                newtensor.SetValueNoCheck((T) (object) Math.Sqrt(value), VARIABLE.Index);
+            }
+
+            return newtensor;
+        }
+
+        public static Tensor<T> Square(Tensor<T> tensor)
+        {
+            var newtensor = Tensor<T>.BuildZeros(tensor);
+            foreach (var VARIABLE in newtensor.Iterate())
+            {
+                var value = double.Parse(tensor[VARIABLE.Index].ToString() ?? string.Empty);
+                newtensor.SetValueNoCheck((T) (object) Math.Pow(value, 2), VARIABLE.Index);
+            }
+
+            return newtensor;
+        }
+
+        public static Tensor<T> Log10(Tensor<T> tensor)
+        {
+            var newtensor = Tensor<T>.BuildZeros(tensor);
+            foreach (var VARIABLE in newtensor.Iterate())
+            {
+                var value = double.Parse(tensor[VARIABLE.Index].ToString() ?? string.Empty);
+                newtensor.SetValueNoCheck((T) (object) Math.Log10(value), VARIABLE.Index);
+            }
+
+            return newtensor;
+        }
+
+        public static Tensor<T> Pow(Tensor<T> tensor, Tensor<T> exponent)
+        {
+            var newtensor = Tensor<T>.BuildZeros(tensor);
+            foreach (var VARIABLE in newtensor.Iterate())
+            {
+                var value = double.Parse(tensor[VARIABLE.Index].ToString() ?? string.Empty);
+                newtensor.SetValueNoCheck((T) (object) Math.Log10(value), VARIABLE.Index);
+            }
+
+            return newtensor;
+        }
 
         private static void ThrowExceptionIfBadSize(Tensor<T> t1, Tensor<T> t2)
         {
