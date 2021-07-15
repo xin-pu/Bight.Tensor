@@ -8,8 +8,7 @@ namespace Bight.Tensor
         {
             if (IsVector) return TensorTitle() + VectorToString(this);
             if (IsMatrix) return TensorTitle() + MatrixToString(this);
-            if (IsTensor) return TensorTitle() + TensorToString(this);
-            return string.Empty;
+            return TensorTitle() + TensorToString(this);
         }
 
         internal string VectorToString(Tensor<T> vector)

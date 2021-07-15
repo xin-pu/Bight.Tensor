@@ -1,4 +1,6 @@
-﻿using Bight.Tensor;
+﻿using System;
+using Bight.Tensor;
+using Bight.Tensor.Exception;
 using Bight.Tensor.Matrix;
 using Bight.Tensor.Vector;
 using FluentAssertions;
@@ -52,6 +54,48 @@ namespace Bight.TensorTest
             vector.IsSquareMatrix.Should().BeFalse();
             matrix.IsSquareMatrix.Should().BeTrue();
             tensor.IsSquareMatrix.Should().BeFalse();
+        }
+
+        [Fact]
+        public void TestThisSetGet()
+        {
+            var t1 = Tensor<double>.BuildZeros(2);
+            t1[1] = 3F;
+            var v1 = t1[1];
+            v1.Should().Be(3);
+
+            var t2 = Tensor<double>.BuildZeros(2, 3);
+            t2[1, 0] = 5F;
+            var v2 = t2[1, 0];
+            v2.Should().Be(5);
+
+            var t3 = Tensor<double>.BuildZeros(2, 3, 4);
+            t3[1, 0, 0] = 5F;
+            var v3 = t3[1, 0, 0];
+            v3.Should().Be(5);
+
+
+            t3[new[] {1, 0, 0}] = 3;
+            v3 = t3[new[] {1, 0, 0}];
+            v3.Should().Be(3);
+        }
+
+        [Fact]
+        public void TestSlice()
+        {
+            var tensorSelf = Tensor<double>.BuildTensor(new double[,,]
+            {
+                {{1, 2}, {3, 4}, {3, 4}},
+                {{0, 2}, {0, 4}, {0, 4}}
+            });
+            var s1 = tensorSelf.Slice(0, 1);
+            _testOutputHelper.WriteLine(s1.ToString());
+
+            var s2 = tensorSelf.Slice(0, 2);
+            _testOutputHelper.WriteLine(s2.ToString());
+
+            Action act = () => { tensorSelf.Slice(1, 1); };
+            act.Should().Throw<InvalidShapeException>().WithMessage("Slicing cannot be performed");
         }
 
 
