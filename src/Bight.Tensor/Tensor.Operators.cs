@@ -15,56 +15,6 @@ namespace Bight.Tensor
         public int Offset { set; get; } = 0;
 
 
-        /// <summary>
-        ///     Element-wise indexing,
-        ///     for example suppose you have a t = Tensor[2 x 3 x 4] of int-s
-        ///     A correct way to index it would be
-        ///     t[0, 0, 1] or t[1, 2, 3],
-        ///     but neither of t[0, 1] (Use GetSubTensor for this) and t[4, 5, 6] (IndexOutOfRange)
-        /// </summary>
-        public T this[int x]
-        {
-            get => Storage[GetFlattenedIndexWithCheck(x)];
-            set => Storage[GetFlattenedIndexWithCheck(x)] = value;
-        }
-
-
-        /// <summary>
-        ///     Element-wise indexing,
-        ///     for example suppose you have a t = Tensor[2 x 3 x 4] of int-s
-        ///     A correct way to index it would be
-        ///     t[0, 0, 1] or t[1, 2, 3],
-        ///     but neither of t[0, 1] (Use GetSubTensor for this) and t[4, 5, 6] (IndexOutOfRange)
-        /// </summary>
-        public T this[int x, int y, int z]
-        {
-            get => Storage[GetFlattenedIndexWithCheck(x, y, z)];
-            set => Storage[GetFlattenedIndexWithCheck(x, y, z)] = value;
-        }
-
-        /// <summary>
-        ///     Element-wise indexing,
-        ///     for example suppose you have a t = Tensor[2 x 3 x 4] of int-s
-        ///     A correct way to index it would be
-        ///     t[0, 0, 1] or t[1, 2, 3],
-        ///     but neither of t[0, 1] (Use GetSubTensor for this) and t[4, 5, 6] (IndexOutOfRange)
-        /// </summary>
-        public T this[int x, int y]
-        {
-            get => Storage[GetFlattenedIndexWithCheck(x, y)];
-            set => Storage[GetFlattenedIndexWithCheck(x, y)] = value;
-        }
-
-        /// <summary>
-        ///     Gets the value by an array of indices.
-        /// </summary>
-        public T this[params int[] indices]
-        {
-            get => Storage[GetFlattenedIndexWithCheck(indices)];
-            set => Storage[GetFlattenedIndexWithCheck(indices)] = value;
-        }
-
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ReactIfBadAxesVol(int vol, int axisId)
         {
@@ -364,6 +314,11 @@ namespace Bight.Tensor
                 Size.Swap(axis1, axis2);
                
             }
+        }
+
+        public void Stack(Tensor<T> tensor)
+        {
+
         }
 
 

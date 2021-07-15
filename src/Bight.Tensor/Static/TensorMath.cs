@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Bight.Tensor.Exception;
 using Bight.Tensor.Holder;
@@ -9,6 +10,16 @@ namespace Bight.Tensor.Static
         where T : struct
     {
         public static Holder<T> Holder = new Holder<T>();
+        public static Type type = typeof(T);
+
+        public static T Sum(Tensor<T> tensor)
+        {
+            var iniZero = Holder.Zero;
+            foreach (var (_, value) in tensor.Iterate())
+                iniZero = Holder.Add(iniZero, value);
+            return iniZero;
+        }
+
 
         /// <summary>
         ///     Return a new Tensor

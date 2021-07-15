@@ -7,12 +7,12 @@
 
   <ItemGroup>
     <Compile Remove="Holder\Holders\IntWrapper.cs" />
-    <Compile Remove="Tensor.Slice.cs" />
+    <Compile Remove="Tensor.Explicit.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Tensor.Explicit.cs" />
     <None Include="Tensor.Operators.cs" />
-    <None Include="Tensor.Slice.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Operations\" />
     <Folder Include="Tensor\" />
   </ItemGroup>
+
+ 
 
 </Project>

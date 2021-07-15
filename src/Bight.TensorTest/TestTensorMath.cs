@@ -40,27 +40,5 @@ namespace Bight.TensorTest
             tensor = TensorMath<double>.Tanh(tensor1);
             _testOutputHelper.WriteLine(tensor + "\r");
         }
-
-
-        [Fact]
-        public void TestLinq()
-        {
-            var tensor1 = Tensor<double>
-                .BuildTensor(new double[,]
-                {
-                    {-1, 2},
-                    {3, -4}
-                });
-            tensor1.Abs();
-            _testOutputHelper.WriteLine(tensor1 + "\r");
-            tensor1.Negate();
-            _testOutputHelper.WriteLine(tensor1 + "\r");
-            tensor1.All(0.3);
-            _testOutputHelper.WriteLine(tensor1 + "\r");
-            tensor1.One();
-            _testOutputHelper.WriteLine(tensor1 + "\r");
-            tensor1.Empty();
-            _testOutputHelper.WriteLine(tensor1 + "\r");
-        }
     }
 }

@@ -7,14 +7,14 @@ using Xunit.Abstractions;
 
 namespace Bight.TensorTest
 {
-    public class TestTensor
+    public class Tensor
     {
         private readonly ITestOutputHelper _testOutputHelper;
         private readonly Tensor<double> matrix;
         private readonly Tensor<double> tensor;
         private readonly Tensor<double> vector;
 
-        public TestTensor(ITestOutputHelper testOutputHelper)
+        public Tensor(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
             vector = new Tensor<double>(new TensorSize(3));

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Bight.Tensor.Holder;
-using YAXLib;
 
 namespace Bight.Tensor
 {
@@ -10,29 +9,9 @@ namespace Bight.Tensor
     ///     per-dimension strides.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public partial class Tensor<T> : ICloneable
+    public partial class Tensor<T>
         where T : struct
     {
-        public Tensor(params int[] shape)
-            : this(new TensorSize(shape))
-        {
-        }
-
-
-        public Tensor(TensorSize size)
-        {
-            Size = size;
-            Storage = new T[Size.Volume];
-            Stride = GetDefaultlStride();
-        }
-
-        public Tensor(TensorSize size, TensorSize stride, T[] storage)
-        {
-            Size = size;
-            Storage = storage;
-            Stride = stride;
-        }
-
         internal Type DType => typeof(T);
 
 
@@ -61,14 +40,6 @@ namespace Bight.Tensor
         ///     a tensor [2,3,4] will get rank 3
         /// </summary>
         public int Rank => Size.Rank;
-
-
-        public object Clone()
-        {
-            var serializer = new YAXSerializer(GetType());
-            var res = serializer.Serialize(this);
-            return serializer.Deserialize(res);
-        }
 
 
         private TensorSize GetDefaultlStride()

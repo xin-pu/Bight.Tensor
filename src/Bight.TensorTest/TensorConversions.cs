@@ -5,12 +5,12 @@ using Xunit.Abstractions;
 
 namespace Bight.TensorTest
 {
-    public class TensorClone
+    public class TensorConversions
     {
         private readonly ITestOutputHelper _testOutputHelper;
         public Tensor<double> OnesTensor = Tensor<double>.BuildOnes(3, 4);
 
-        public TensorClone(ITestOutputHelper testOutputHelper)
+        public TensorConversions(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
         }
@@ -20,10 +20,18 @@ namespace Bight.TensorTest
         public void TestClone()
         {
             _testOutputHelper.WriteLine(OnesTensor.ToString());
-            var cloneTensor = OnesTensor.Clone();
-            _testOutputHelper.WriteLine(cloneTensor.ToString());
-            cloneTensor.Should().BeEquivalentTo(OnesTensor);
+            var cloneTensor = OnesTensor.Clone() as Tensor<double>;
+            _testOutputHelper.WriteLine(cloneTensor?.ToString());
+            var res = cloneTensor != OnesTensor;
+            res.Should().BeTrue();
             cloneTensor.Should().NotBe(OnesTensor);
+        }
+
+        [Fact]
+        public void TestToScalar()
+        {
+            var scalars = OnesTensor.ToScalars();
+            _testOutputHelper.WriteLine(string.Join(",", scalars));
         }
     }
 }
