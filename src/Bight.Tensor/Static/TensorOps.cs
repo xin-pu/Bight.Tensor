@@ -152,6 +152,18 @@ namespace Bight.Tensor.Static
             return newtensor;
         }
 
+        public static Tensor<T> Log(Tensor<T> tensor)
+        {
+            var newtensor = Tensor<T>.BuildZeros(tensor);
+            foreach (var VARIABLE in newtensor.Iterate())
+            {
+                var value = double.Parse(tensor[VARIABLE.Index].ToString() ?? string.Empty);
+                newtensor.SetValueNoCheck((T) (object) Math.Log(value), VARIABLE.Index);
+            }
+
+            return newtensor;
+        }
+
         public static Tensor<T> Log10(Tensor<T> tensor)
         {
             var newtensor = Tensor<T>.BuildZeros(tensor);
@@ -171,6 +183,18 @@ namespace Bight.Tensor.Static
             {
                 var value = double.Parse(tensor[VARIABLE.Index].ToString() ?? string.Empty);
                 newtensor.SetValueNoCheck((T) (object) Math.Log10(value), VARIABLE.Index);
+            }
+
+            return newtensor;
+        }
+
+        public static Tensor<T> Exp(Tensor<T> tensor)
+        {
+            var newtensor = Tensor<T>.BuildZeros(tensor);
+            foreach (var VARIABLE in newtensor.Iterate())
+            {
+                var value = double.Parse(tensor[VARIABLE.Index].ToString() ?? string.Empty);
+                newtensor.SetValueNoCheck((T) (object) Math.Exp(value), VARIABLE.Index);
             }
 
             return newtensor;

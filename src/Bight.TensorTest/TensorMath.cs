@@ -1,4 +1,5 @@
-﻿using Bight.Tensor;
+﻿using System;
+using Bight.Tensor;
 using Bight.Tensor.Static;
 using Xunit;
 using Xunit.Abstractions;
@@ -102,9 +103,25 @@ namespace Bight.TensorTest
         }
 
         [Fact]
+        public void TestLog()
+        {
+            var tensorIN = Tensor<double>.BuildTensor(new[] {0, Math.E});
+            var tensor = TensorOps<double>.Log(tensorIN);
+            _testOutputHelper.WriteLine(tensor.ToString());
+        }
+
+        [Fact]
         public void TestLog10()
         {
             var tensor = TensorOps<double>.Log10(tensor1);
+            _testOutputHelper.WriteLine(tensor.ToString());
+        }
+
+        [Fact]
+        public void TestExp()
+        {
+            var tensorIN = Tensor<double>.BuildTensor(new[] {0, Math.Log(2)});
+            var tensor = TensorOps<double>.Exp(tensorIN);
             _testOutputHelper.WriteLine(tensor.ToString());
         }
     }
