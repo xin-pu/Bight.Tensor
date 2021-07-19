@@ -1,4 +1,7 @@
-﻿namespace Bight.Tensor
+﻿using System;
+using System.Collections.Generic;
+
+namespace Bight.Tensor
 {
     public partial class Tensor<T>
     {
@@ -48,6 +51,29 @@
             Size = size;
             Storage = storage;
             Stride = stride;
+        }
+    }
+
+
+    public class Dtype
+    {
+        public List<Type> DTypeSupport = new List<Type>
+        {
+            typeof(double),
+            typeof(float),
+            typeof(int),
+            typeof(uint),
+            typeof(long),
+            typeof(ulong),
+            typeof(short),
+            typeof(ushort),
+            typeof(sbyte),
+            typeof(byte),
+            typeof(bool)
+        };
+
+        private void A()
+        {
         }
     }
 }

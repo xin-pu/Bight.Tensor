@@ -6,6 +6,7 @@ namespace Bight.Tensor
     {
         public void Dispose()
         {
+            Storage = null;
         }
     }
 }

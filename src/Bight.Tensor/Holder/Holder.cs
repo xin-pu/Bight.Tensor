@@ -74,6 +74,7 @@ namespace Bight.Tensor.Holder
             return Operations.Add(a, b);
         }
 
+
         /// <summary>
         ///     Rules of subtracting elements. Must return a new one.
         ///     Should not modify the old ones.

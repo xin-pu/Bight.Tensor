@@ -28,6 +28,12 @@ namespace Bight.Tensor
         }
 
 
+        public IList<Tensor<T>> ToVectors()
+        {
+            return IterateOverVectors().Select(a => BuildVector(a)).ToList();
+        }
+
+
         ///Todo Convert to GPU Array
     }
 }

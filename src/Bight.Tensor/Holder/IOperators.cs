@@ -14,7 +14,7 @@
 
 
         /// <returns>
-        ///     If your elements are mutable, it
+        ///     If you r elements are mutable, it
         ///     might be useful to be able to copy
         ///     them as well.
         /// </returns>
